@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Mini Project – Login (Step 3)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    }
+  </script>
+</head>
+
+<body class="bg-gray-100 dark:bg-gray-900 min-h-screen flex items-center justify-center transition">
+
+  <!-- Dark Mode Toggle -->
+  <button onclick="toggleDarkMode()"
+    class="absolute top-4 right-4 text-sm border px-3 py-1 rounded
+           text-gray-600 dark:text-gray-300">
+    🌙
+  </button>
+
+  <!-- Login Card -->
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg w-full max-w-sm">
+
+    <h2 class="text-2xl font-bold text-center text-gray-800 dark:text-white">
+      Login
+    </h2>
+    <p class="text-center text-gray-500 mt-1">
+      Welcome back
+    </p>
+
+    <!-- Email -->
+    <div class="relative mt-4">
+      <span class="absolute left-3 top-2.5 text-gray-400">📧</span>
+      <input 
+        id="email"
+        type="email"
+        placeholder="Email"
+        class="w-full pl-10 p-2 border rounded-lg transition-all"
+      />
+    </div>
+
+    <!-- Password -->
+    <div class="relative mt-3">
+      <span class="absolute left-3 top-2.5 text-gray-400">🔒</span>
+
+      <input 
+        id="password"
+        type="password"
+        placeholder="Password"
+        class="w-full pl-10 p-2 border rounded-lg transition-all"
+      />
+
+      <span 
+        onclick="togglePassword()"
+        class="absolute right-3 top-2.5 cursor-pointer text-gray-400">
+        👁️
+      </span>
+    </div>
+
+    <!-- Remember Me -->
+    <div class="flex items-center justify-between mt-3 text-sm">
+      <label class="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+        <input type="checkbox" id="remember" class="accent-blue-600">
+        Remember Me
+      </label>
+
+      <a href="#" class="text-blue-600">Forgot?</a>
+    </div>
+
+    <!-- Error -->
+    <p id="error" class="hidden text-red-500 text-sm mt-2 text-center">
+      Please fill all fields
+    </p>
+
+    <!-- Login Button -->
+    <button 
+      onclick="login()"
+      class="bg-blue-600 text-white w-full py-2 mt-4 rounded-lg">
+      Login
+    </button>
+
+  </div>
+
+<script>
+function toggleDarkMode() {
+  document.documentElement.classList.toggle("dark");
+}
+
+function togglePassword() {
+  const pass = document.getElementById("password");
+  pass.type = pass.type === "password" ? "text" : "password";
+}
+
+function login() {
+  const email = document.getElementById("email");
+  const pass = document.getElementById("password");
+  const remember = document.getElementById("remember");
+  const error = document.getElementById("error");
+
+  if (email.value === "" || pass.value === "") {
+    error.classList.remove("hidden");
+
+    email.classList.add("border-red-500");
+    pass.classList.add("border-red-500");
+
+    email.classList.remove("border-green-500");
+    pass.classList.remove("border-green-500");
+  } else {
+    error.classList.add("hidden");
+
+    email.classList.remove("border-red-500");
+    pass.classList.remove("border-red-500");
+
+    email.classList.add("border-green-500");
+    pass.classList.add("border-green-500");
+
+    if (remember.checked) {
+      localStorage.setItem("savedEmail", email.value);
+    } else {
+      localStorage.removeItem("savedEmail");
+    }
+
+    alert("Login Successful 🎉");
+  }
+}
+
+window.onload = function () {
+  const saved = localStorage.getItem("savedEmail");
+  if (saved) {
+    document.getElementById("email").value = saved;
+    document.getElementById("remember").checked = true;
+  }
+}
+</script>
+
+</body>
+  </html>
